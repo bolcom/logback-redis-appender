@@ -3,8 +3,6 @@
 This is a form of the cwbase.com version of the appender, adapted to send fields in a format 
 that Logstash expects.
 
-[![Build Status](https://travis-ci.org/kmtong/logback-redis-appender.png?branch=master)](https://travis-ci.org/kmtong/logback-redis-appender)
-
 # Configurable Options
 
 ## Redis Related
