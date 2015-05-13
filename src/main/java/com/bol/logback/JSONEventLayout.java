@@ -110,7 +110,7 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 		appendKeyValue(buf, "source", source, mdc);
 		buf.append(COMMA);
 
-		appendKeyValue(buf, "@source_host", source, null);
+		appendKeyValue(buf, "@source_host", sourceHost, null);
 		buf.append(COMMA);
 
 		appendKeyValue(buf, "host", sourceHost, mdc);
