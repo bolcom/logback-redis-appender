@@ -18,6 +18,7 @@ public class RedisAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 	JedisPool pool;
 
 	JSONEventLayout layout;
+	SourceHostProvider provider;
 
 	// logger configurable options
 	String host = "localhost";
@@ -52,6 +53,14 @@ public class RedisAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 		}
 	}
 
+	public void setSourceHostProvider( SourceHostProvider provider ) {
+		this.layout.setSourceHostProvider( provider );
+	}
+
+	public SourceHostProvider getSourceHostProvider() {
+		return this.layout.getSourceHostProvider();
+	}
+
 	public String getSource() {
 		return layout.getSource();
 	}
@@ -61,11 +70,12 @@ public class RedisAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 	}
 
 	public String getSourceHost() {
-		return layout.getSourceHost();
+		return layout.getSourceHostProvider().getSourceHost();
 	}
 
-	public void setSourceHost(String sourceHost) {
-		layout.setSourceHost(sourceHost);
+	public void setSourceHost(String sourceHost)
+	{
+		layout.setSourceHostProvider( new FixedSourceHostProvider(sourceHost) );
 	}
 
 	public String getSourcePath() {

@@ -38,7 +38,7 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 	private boolean properties = false;
 
 	String source;
-	String sourceHost;
+	SourceHostProvider sourceHostProvider;
 	String sourcePath;
 	List<String> tags;
 	String type;
@@ -105,6 +105,7 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 			buf.setLength(0);
 		}
 
+		String sourceHost = this.sourceHostProvider.getSourceHost();
 		Map<String, String> mdc = event.getMDCPropertyMap();
 		buf.append("{");
 		appendKeyValue(buf, "source", source, mdc);
@@ -308,12 +309,12 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 		this.source = source;
 	}
 
-	public String getSourceHost() {
-		return sourceHost;
+	public SourceHostProvider getSourceHostProvider() {
+		return sourceHostProvider;
 	}
 
-	public void setSourceHost(String sourceHost) {
-		this.sourceHost = sourceHost;
+	public void setSourceHostProvider(SourceHostProvider sourceHostProvider) {
+		this.sourceHostProvider = sourceHostProvider;
 	}
 
 	public String getSourcePath() {
