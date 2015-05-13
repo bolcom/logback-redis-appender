@@ -1,5 +1,5 @@
 <configuration>
-  <appender name="TEST" class="com.cwbase.logback.RedisAppender">
+  <appender name="TEST" class="com.bol.logback.RedisAppender">
     <source>test-application</source>
     <type>test</type>
     <host>localhost</host>

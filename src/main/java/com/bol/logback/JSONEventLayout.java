@@ -1,4 +1,4 @@
-package com.cwbase.logback;
+package com.bol.logback;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -109,6 +109,10 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 		buf.append("{");
 		appendKeyValue(buf, "source", source, mdc);
 		buf.append(COMMA);
+
+		appendKeyValue(buf, "@source_host", source, null);
+		buf.append(COMMA);
+
 		appendKeyValue(buf, "host", sourceHost, mdc);
 		buf.append(COMMA);
 		appendKeyValue(buf, "path", sourcePath, mdc);
@@ -117,7 +121,7 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 		buf.append(COMMA);
 		appendKeyValue(buf, "tags", tags, mdc);
 		buf.append(COMMA);
-		appendKeyValue(buf, "message", event.getFormattedMessage(), null);
+		appendKeyValue(buf, "@message", event.getFormattedMessage(), null);
 		buf.append(COMMA);
 		appendKeyValue(buf, "@timestamp",
 				df.format(new Date(event.getTimeStamp())), null);

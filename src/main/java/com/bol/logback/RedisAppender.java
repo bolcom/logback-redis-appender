@@ -1,4 +1,4 @@
-package com.cwbase.logback;
+package com.bol.logback;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

@@ -1,17 +1,9 @@
+# Logback Redis appender
+
+This is a form of the cwbase.com version of the appender, adapted to send fields in a format 
+that Logstash expects.
 
 [![Build Status](https://travis-ci.org/kmtong/logback-redis-appender.png?branch=master)](https://travis-ci.org/kmtong/logback-redis-appender)
-
-# Usage
-
-Now in Maven Central Repository:
-
-```xml
-<dependency>
-  <groupId>com.cwbase</groupId>
-  <artifactId>logback-redis-appender</artifactId>
-  <version>1.1.1</version>
-</dependency>
-```
 
 # Configurable Options
 
@@ -47,7 +39,7 @@ Since 1.1.1 these fields support MDC property resolution by @{varname}.
 
 ## Logback XML Configuration:
 
-    <appender name="LOGSTASH" class="com.cwbase.logback.RedisAppender">
+    <appender name="LOGSTASH" class="com.bol.logback.RedisAppender">
         <source>mySource</source>
         <sourcePath>mySourcePath</sourcePath>
         <type>myApplication</type>
