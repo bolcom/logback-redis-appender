@@ -224,10 +224,10 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 
         }
 
+        buf.append(COMMA);
         appendKeyValue(buf, "level", event.getLevel().toString(), null);
         buf.append(COMMA);
         appendKeyValue(buf, "threadName", event.getThreadName(), null);
-        buf.append(COMMA);
 
 
 
