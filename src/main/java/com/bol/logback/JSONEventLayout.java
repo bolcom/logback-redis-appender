@@ -38,7 +38,7 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 	String sourcePath;
 	List<String> tags;
 	String type;
-	String extraFields;
+	Map<String, String> customFields = new HashMap<String, String>();
 
 	@Override
 	public void start() {
@@ -125,12 +125,7 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 				df.format(new Date(event.getTimeStamp())), null);
 		buf.append(COMMA);
 
-		if ( extraFields != null && ! extraFields.isEmpty() ) {
-			appendKeyValue( buf, "@my_fields", extraFields, null );
-		} else {
-			appendKeyValue( buf, "@my_fields", "DummyValue", null );
-		}
-
+		addCustomFields( buf );
 
 		buf.append(COMMA);
 		// ---- fields ----
@@ -196,6 +191,16 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 		buf.append("}");
 
 		return buf.toString();
+	}
+
+	private void addCustomFields( StringBuilder buf ) {
+		buf.append("\"@fields\":{");
+
+		for( Entry<String, String> entry: customFields.entrySet() ) {
+			appendKeyValue( buf, entry.getKey(), entry.getValue(), null );
+		}
+
+		buf.append("}");
 	}
 
 	private void appendKeyValue(StringBuilder buf, String key, String value,
@@ -303,12 +308,8 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 		return sb.toString();
 	}
 
-	public String getExtraFields() {
-		return extraFields;
-	}
-
-	public void setExtraFields(String extraFields) {
-		this.extraFields = extraFields;
+	public void setCustomField( String key, String value ) {
+		this.customFields.put( key, value );
 	}
 
 	@Override

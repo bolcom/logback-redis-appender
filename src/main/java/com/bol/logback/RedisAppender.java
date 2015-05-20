@@ -108,6 +108,18 @@ public class RedisAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 		}
 	}
 
+	public void setExtraFields( String fields ) {
+		if ( fields != null ) {
+			String[] afields = fields.split(",");
+			for ( String field: afields ) {
+				String[] parts = field.split(":");
+				if ( parts.length == 2 ) {
+					layout.setCustomField( parts[0], parts[1] );
+				}
+			}
+		}
+	}
+
 	public String getType() {
 		return layout.getType();
 	}
