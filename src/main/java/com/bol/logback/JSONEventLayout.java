@@ -101,9 +101,6 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 
         addCustomFields(buf, event);
 
-        buf.append(COMMA);
-        // ---- fields ----
-
 		/*
          * <log4j:properties> <log4j:data name="name" value="value"/>
 		 * </log4j:properties>
