@@ -229,7 +229,8 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
         buf.append(COMMA);
         appendKeyValue(buf, "threadName", event.getThreadName(), null);
 
-
+        buf.append(COMMA);
+        appendKeyValue(buf, "loggerName", event.getLoggerName(), null);
 
 		/*
 		@fields.exception.exception_class
@@ -238,8 +239,6 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 @fields.exception.root_exception_message
 @fields.exception.root_stacktrace
 @fields.exception.stacktrace
-@fields.loggerName
-@fields.role
 		 */
 
         buf.append("}");
