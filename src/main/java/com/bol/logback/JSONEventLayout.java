@@ -196,8 +196,14 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 	private void addCustomFields( StringBuilder buf ) {
 		buf.append("\"@fields\":{");
 
-		for( Entry<String, String> entry: customFields.entrySet() ) {
+		Iterator<Entry<String,String>> it = customFields.entrySet().iterator();
+
+		while ( it.hasNext() ) {
+			Entry<String, String> entry = it.next();
 			appendKeyValue( buf, entry.getKey(), entry.getValue(), null );
+			if ( it.hasNext() ) {
+				buf.append(COMMA);
+			}
 		}
 
 		buf.append("}");
