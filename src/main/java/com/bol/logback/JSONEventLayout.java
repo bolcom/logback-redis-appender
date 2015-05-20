@@ -2,12 +2,8 @@ package com.bol.logback;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +38,7 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 	String sourcePath;
 	List<String> tags;
 	String type;
+	String extraFields;
 
 	@Override
 	public void start() {
@@ -128,6 +125,14 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 				df.format(new Date(event.getTimeStamp())), null);
 		buf.append(COMMA);
 
+		if ( extraFields != null && ! extraFields.isEmpty() ) {
+			appendKeyValue( buf, "@my_fields", extraFields, null );
+		} else {
+			appendKeyValue( buf, "@my_fields", "DummyValue", null );
+		}
+
+
+		buf.append(COMMA);
 		// ---- fields ----
 		appendKeyValue(buf, "logger", event.getLoggerName(), null);
 		buf.append(COMMA);
@@ -186,6 +191,8 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 				buf.append("}");
 			}
 		}
+
+
 		buf.append("}");
 
 		return buf.toString();
@@ -294,6 +301,14 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 			}
 		}// for
 		return sb.toString();
+	}
+
+	public String getExtraFields() {
+		return extraFields;
+	}
+
+	public void setExtraFields(String extraFields) {
+		this.extraFields = extraFields;
 	}
 
 	@Override
