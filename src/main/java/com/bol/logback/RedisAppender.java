@@ -184,14 +184,6 @@ public class RedisAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 		return layout.getProperties();
 	}
 
-	public void setLocation(boolean flag) {
-		layout.setLocationInfo(flag);
-	}
-
-	public boolean getLocation() {
-		return layout.getLocationInfo();
-	}
-
 	public void setCallerStackIndex(int index) {
 		layout.setCallerStackIdx(index);
 	}

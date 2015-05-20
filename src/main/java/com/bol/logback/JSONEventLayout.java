@@ -28,7 +28,6 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
     private DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SZ");
     private Pattern MDC_VAR_PATTERN = Pattern.compile("\\@\\{([^}]*)\\}");
 
-    private boolean locationInfo = false;
     private int callerStackIdx = 0;
     private boolean properties = false;
 
@@ -42,29 +41,6 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
     @Override
     public void start() {
         super.start();
-    }
-
-    /**
-     * The <b>LocationInfo</b> option takes a boolean value. By default, it is
-     * set to false which means there will be no location information output by
-     * this layout. If the the option is set to true, then the file name and
-     * line number of the statement at the origin of the log statement will be
-     * output.
-     * <p/>
-     * <p/>
-     * If you are embedding this layout within an
-     * <code>org.apache.log4j.net.SMTPAppender</code> then make sure to set the
-     * <b>LocationInfo</b> option of that appender as well.
-     */
-    public void setLocationInfo(boolean flag) {
-        locationInfo = flag;
-    }
-
-    /**
-     * Returns the current value of the <b>LocationInfo</b> option.
-     */
-    public boolean getLocationInfo() {
-        return locationInfo;
     }
 
     /**
@@ -127,41 +103,6 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 
         buf.append(COMMA);
         // ---- fields ----
-        appendKeyValue(buf, "logger", event.getLoggerName(), null);
-        buf.append(COMMA);
-        appendKeyValue(buf, "level", event.getLevel().toString(), null);
-        buf.append(COMMA);
-        appendKeyValue(buf, "thread", event.getThreadName(), null);
-        buf.append(COMMA);
-        appendKeyValue(buf, "level", event.getLevel().toString(), null);
-        IThrowableProxy tp = event.getThrowableProxy();
-        if (tp != null) {
-            buf.append(COMMA);
-            String throwable = ThrowableProxyUtil.asString(tp);
-            appendKeyValue(buf, "throwable", throwable, null);
-        }
-        if (locationInfo) {
-            StackTraceElement[] callerDataArray = event.getCallerData();
-            if (callerDataArray != null
-                    && callerDataArray.length > callerStackIdx) {
-                buf.append(COMMA);
-                buf.append("\"location\":{");
-                StackTraceElement immediateCallerData = callerDataArray[callerStackIdx];
-                appendKeyValue(buf, "class",
-                        immediateCallerData.getClassName(), null);
-                buf.append(COMMA);
-                appendKeyValue(buf, "method",
-                        immediateCallerData.getMethodName(), null);
-                buf.append(COMMA);
-                appendKeyValue(buf, "file", immediateCallerData.getFileName(),
-                        null);
-                buf.append(COMMA);
-                appendKeyValue(buf, "line",
-                        Integer.toString(immediateCallerData.getLineNumber()),
-                        null);
-                buf.append("}");
-            }
-        }
 
 		/*
          * <log4j:properties> <log4j:data name="name" value="value"/>
@@ -232,14 +173,12 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
         buf.append(COMMA);
         appendKeyValue(buf, "loggerName", event.getLoggerName(), null);
 
-		/*
-		@fields.exception.exception_class
-@fields.exception.exception_message
-@fields.exception.root_exception_class
-@fields.exception.root_exception_message
-@fields.exception.root_stacktrace
-@fields.exception.stacktrace
-		 */
+        IThrowableProxy tp = event.getThrowableProxy();
+        if (tp != null) {
+            buf.append(COMMA);
+            String throwable = ThrowableProxyUtil.asString(tp);
+            appendKeyValue(buf, "exception", throwable, null);
+        }
 
         buf.append("}");
     }
