@@ -173,8 +173,10 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
         IThrowableProxy tp = event.getThrowableProxy();
         if (tp != null) {
             buf.append(COMMA);
+            buf.append("\"exception\":{");
             String throwable = ThrowableProxyUtil.asString(tp);
-            appendKeyValue(buf, "exception", throwable, null);
+            appendKeyValue(buf, "stacktrace", throwable, null);
+            buf.append("}");
         }
 
         buf.append("}");
