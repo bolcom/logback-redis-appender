@@ -99,7 +99,7 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
                 df.format(new Date(event.getTimeStamp())), null);
         buf.append(COMMA);
 
-        addCustomFields(buf, event);
+        addCustomFields(buf, event, mdc);
 
 		/*
          * <log4j:properties> <log4j:data name="name" value="value"/>
@@ -129,14 +129,14 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
         return buf.toString();
     }
 
-    private void addCustomFields(StringBuilder buf, ILoggingEvent event ) {
+    private void addCustomFields(StringBuilder buf, ILoggingEvent event, Map<String, String> mdc) {
         buf.append("\"@fields\":{");
 
         Iterator<Entry<String, String>> it = customFields.entrySet().iterator();
 
         while (it.hasNext()) {
             Entry<String, String> entry = it.next();
-            appendKeyValue(buf, entry.getKey(), entry.getValue(), null);
+            appendKeyValue(buf, entry.getKey(), entry.getValue(), mdc);
             if (it.hasNext()) {
                 buf.append(COMMA);
             }
@@ -148,27 +148,27 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
             buf.append(COMMA);
             StackTraceElement immediateCallerData = callerDataArray[callerStackIdx];
             appendKeyValue(buf, "class",
-                    immediateCallerData.getClassName(), null);
+                    immediateCallerData.getClassName(), mdc);
             buf.append(COMMA);
             appendKeyValue(buf, "method",
-                    immediateCallerData.getMethodName(), null);
+                    immediateCallerData.getMethodName(), mdc);
             buf.append(COMMA);
             appendKeyValue(buf, "file", immediateCallerData.getFileName(),
-                    null);
+                    mdc);
             buf.append(COMMA);
             appendKeyValue(buf, "line_number",
                     Integer.toString(immediateCallerData.getLineNumber()),
-                    null);
+                    mdc);
 
         }
 
         buf.append(COMMA);
-        appendKeyValue(buf, "level", event.getLevel().toString(), null);
+        appendKeyValue(buf, "level", event.getLevel().toString(), mdc);
         buf.append(COMMA);
-        appendKeyValue(buf, "threadName", event.getThreadName(), null);
+        appendKeyValue(buf, "threadName", event.getThreadName(), mdc);
 
         buf.append(COMMA);
-        appendKeyValue(buf, "loggerName", event.getLoggerName(), null);
+        appendKeyValue(buf, "loggerName", event.getLoggerName(), mdc);
 
         IThrowableProxy tp = event.getThrowableProxy();
         if (tp != null) {
