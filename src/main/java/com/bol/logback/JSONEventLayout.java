@@ -134,18 +134,14 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
 
         Iterator<Entry<String, String>> it = customFields.entrySet().iterator();
 
-        while (it.hasNext()) {
-            Entry<String, String> entry = it.next();
-            appendKeyValue(buf, entry.getKey(), entry.getValue(), mdc);
-            if (it.hasNext()) {
-                buf.append(COMMA);
-            }
+        for(Entry<String, String> e : customFields.entrySet()) {
+            appendKeyValue(buf, e.getKey(), e.getValue(), mdc);
+            buf.append(COMMA);
         }
 
         StackTraceElement[] callerDataArray = event.getCallerData();
         if (callerDataArray != null
                 && callerDataArray.length > callerStackIdx) {
-            buf.append(COMMA);
             StackTraceElement immediateCallerData = callerDataArray[callerStackIdx];
             appendKeyValue(buf, "class",
                     immediateCallerData.getClassName(), mdc);
@@ -159,11 +155,11 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
             appendKeyValue(buf, "line_number",
                     Integer.toString(immediateCallerData.getLineNumber()),
                     mdc);
-
+            buf.append(COMMA);
         }
 
-        buf.append(COMMA);
         appendKeyValue(buf, "level", event.getLevel().toString(), mdc);
+
         buf.append(COMMA);
         appendKeyValue(buf, "threadName", event.getThreadName(), mdc);
 

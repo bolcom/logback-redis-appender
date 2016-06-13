@@ -1,3 +1,6 @@
+
+[![Build Status](https://travis-ci.org/bolcom/logback-redis-appender.png?branch=master)](https://travis-ci.org/bolcom/logback-redis-appender)
+
 # Logback Redis appender
 
 This is a form of the cwbase.com version of the appender, adapted to send fields in a format 

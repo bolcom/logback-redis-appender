@@ -23,8 +23,8 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 @Ignore
 public class RedisAppenderTest {
 
-	String key = "logstash";
-	Jedis redis;
+	private String key = "logstash";
+	private Jedis redis;
 
 	@Test
 	public void logTest() throws Exception {
@@ -47,7 +47,7 @@ public class RedisAppenderTest {
 		JsonNode node = mapper.readTree(content);
 
 		assertEquals("test-application", node.get("source").asText());
-		assertEquals("Test Log #1", node.get("message").asText());
+		assertEquals("Test Log #1", node.get("@message").asText());
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class RedisAppenderTest {
 		redis.ltrim(key, 1, 0);
 	}
 
-	protected void configLogger(String loggerxml) {
+	private void configLogger(String loggerxml) {
 		LoggerContext context = (LoggerContext) LoggerFactory
 				.getILoggerFactory();
 
