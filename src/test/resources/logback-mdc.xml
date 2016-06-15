@@ -8,6 +8,7 @@
     <mdc>true</mdc>
     <location>true</location>
     <callerStackIndex>0</callerStackIndex>
+    <extraFields>field1:@{mdcvar1},field2:@{mdcvar4:-foo}</extraFields>
   </appender>
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>

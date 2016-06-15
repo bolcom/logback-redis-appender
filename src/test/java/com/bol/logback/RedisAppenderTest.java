@@ -18,6 +18,7 @@ import ch.qos.logback.core.util.StatusPrinter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class RedisAppenderTest {
 
@@ -64,6 +65,10 @@ public class RedisAppenderTest {
 		assertEquals("test1", tags.get(0).asText());
 		assertEquals("test2", tags.get(1).asText());
 		assertEquals("test1 test2 mdcvar3_NOT_FOUND foo", tags.get(2).asText());
+
+		ObjectNode extraFields = (ObjectNode) node.get("@fields");
+		assertEquals("test1", extraFields.get("field1").asText());
+		assertEquals("foo", extraFields.get("field2").asText());
 	}
 
 	@Before
