@@ -105,12 +105,19 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
          * <log4j:properties> <log4j:data name="name" value="value"/>
 		 * </log4j:properties>
 		 */
+        appendMDC(event.getMDCPropertyMap(), "properties");
+
+        buf.append("}");
+
+        return buf.toString();
+    }
+
+    private void appendMDC(Map<String, String> propertyMap, String fieldName) {
         if (properties) {
-            Map<String, String> propertyMap = event.getMDCPropertyMap();
             if ((propertyMap != null) && (propertyMap.size() != 0)) {
                 Set<Entry<String, String>> entrySet = propertyMap.entrySet();
                 buf.append(COMMA);
-                buf.append("\"mdc\":{");
+                buf.append("\"").append(fieldName).append("\":{");
                 Iterator<Entry<String, String>> i = entrySet.iterator();
                 while (i.hasNext()) {
                     Entry<String, String> entry = i.next();
@@ -122,11 +129,6 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
                 buf.append("}");
             }
         }
-
-
-        buf.append("}");
-
-        return buf.toString();
     }
 
     private void addCustomFields(StringBuilder buf, ILoggingEvent event, Map<String, String> mdc) {
@@ -172,6 +174,8 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
             appendKeyValue(buf, "stacktrace", throwable, null);
             buf.append("}");
         }
+
+        appendMDC(event.getMDCPropertyMap(), "mdc");
 
         buf.append("}");
     }
