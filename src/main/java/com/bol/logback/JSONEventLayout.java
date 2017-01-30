@@ -110,7 +110,7 @@ public class JSONEventLayout extends LayoutBase<ILoggingEvent> {
             if ((propertyMap != null) && (propertyMap.size() != 0)) {
                 Set<Entry<String, String>> entrySet = propertyMap.entrySet();
                 buf.append(COMMA);
-                buf.append("\"properties\":{");
+                buf.append("\"mdc\":{");
                 Iterator<Entry<String, String>> i = entrySet.iterator();
                 while (i.hasNext()) {
                     Entry<String, String> entry = i.next();
